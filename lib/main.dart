@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_app/models/film.dart';
 import 'package:hive_app/pages/homepage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   
@@ -24,6 +25,19 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
 
   ThemeMode _themeMode = ThemeMode.light;
+
+    Future<void> changeTheme(theme) async{
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setBool("theme", theme);
+  }
+
+
+  Future<bool?> readTheme() async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool? theme = prefs.getBool("theme");
+  return theme;
+  }
+
   
   void _toggleTheme(){
     setState(() {
@@ -49,7 +63,6 @@ class _MyAppState extends State<MyApp> {
           surface: const Color.fromARGB(255, 34, 40, 49)
         ),
       ),
-      themeMode: ThemeMode.system,
     );
   }
 }

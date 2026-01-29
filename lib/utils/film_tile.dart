@@ -1,18 +1,21 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class FilmTile extends StatelessWidget {
-  final String filmName;
-  final String filmImage;
-  final String filmdescription;
-  final dynamic deleteFunction;
+  String filmName;
+  String filmImage;
+  String filmdescription;
+  dynamic deleteFunction;
+  dynamic updateFunction;
 
-  FilmTile({
+   FilmTile({
     super.key,
     required this.filmName,
     required this.filmImage,
     required this.filmdescription,
-    required this.deleteFunction
+    required this.deleteFunction,
+    required this.updateFunction
     });
 
 @override
@@ -25,6 +28,7 @@ class FilmTile extends StatelessWidget {
           children: [
             SlidableAction(
               onPressed: deleteFunction,
+              
               icon: Icons.delete,
               backgroundColor: Colors.red,
               borderRadius: BorderRadius.circular(5),
@@ -33,7 +37,7 @@ class FilmTile extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: Colors.yellow,
+            color: Theme.of(context).secondaryHeaderColor,
             borderRadius: BorderRadius.circular(5)),
           child: Column(
             children: [
@@ -44,7 +48,14 @@ class FilmTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 child: Image.asset(filmImage),
               ),
-              Text(filmdescription)
+              Text(filmdescription),
+              ElevatedButton(
+                onPressed: updateFunction, 
+                child: 
+                Text("Editfilm")
+                ),
+
+              
             ],
           )
           ),

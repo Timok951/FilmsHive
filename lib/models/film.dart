@@ -5,11 +5,11 @@ part 'film.g.dart';
 @HiveType(typeId: 0)
 class Film  extends HiveObject{
   @HiveField(0)
-  final String name;
+  String name;
   @HiveField(1)
-  final String imagePath;
+  String imagePath;
   @HiveField(2)
-  final String description;
+  String description;
 
   Film({
     required this.name,

@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_app/models/film.dart';
 import 'package:hive_app/utils/AddFilm.dart';
+import 'package:hive_app/utils/edit_film.dart';
 import 'package:hive_app/utils/film_tile.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+
+
+
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+
+   HomePage({super.key});
+  
 
   @override
   State<HomePage> createState() => _HomepageState();
+
 }
 
 class _HomepageState extends State<HomePage> {
@@ -39,6 +47,7 @@ class _HomepageState extends State<HomePage> {
           ),
         ),
         elevation: 0,
+        
       ),
       floatingActionButton: FloatingActionButton(
         onPressed:() => showDialog(
@@ -57,31 +66,63 @@ class _HomepageState extends State<HomePage> {
         tooltip: 'Add film',
         child: Icon(Icons.add),
       ),
-      body: ValueListenableBuilder(
-        valueListenable: Hive.box('Films').listenable(), 
-        builder: (context, Box box, _){
-          if (box.values.isEmpty){
-            return Center(
-              child: Text("Todo list is empty"),
-            );
-          }
-          return ListView.builder(
-            itemCount: box.values.length,
-            itemBuilder: (context, index) {
-            Film res = box.getAt(index);
-            return FilmTile(
-              filmName: res.name, 
-              filmImage: res.imagePath, 
-              filmdescription: res.description, 
-              deleteFunction: () {
-                res.delete();
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ValueListenableBuilder(
+            valueListenable: Hive.box<Film>("Films").listenable(), 
+            builder: (context, Box box, _){
+              if (box.values.isEmpty){
+                return Center(
+                  child: Text("Films list is empty"),
+                );
+              }
+              return Flexible(
+                fit: FlexFit.tight,
+                child: ListView.builder(
+                  
+                  itemCount: box.values.length,
+                  itemBuilder: (context, index) {
+                  Film res = box.getAt(index);
+                  return FilmTile(
+                    filmName: res.name, 
+                    filmImage: res.imagePath, 
+                    filmdescription: res.description, 
+                    deleteFunction: (BuildContext context) {
+                      res.delete();
+                      },
+                    updateFunction:() => showDialog(
+                context: context, 
+                builder: (context){
+                  return EditFilm(
+                    controller: _controller,
+                    controllerdesc: _controllerdesc,
+                    controllerpath: _controllerimg,
+                    onCancel: () => Navigator.of(context).pop(),
+                    filmname: res.name,
+                    desc: res.description,
+                    img: res.imagePath,
+                    onSave: (){
+                      res.name = _controller.text;
+                      res.imagePath = _controllerimg.text;
+                      res.description = _controllerimg.text;
+                      res.save();
+                    }
+                          );
                 }
+                ), 
+                    );
+                  },
+                
+                  ),
               );
-            },
-
-            );
-          }
-        )
+                
+              }
+            )
+        ],
+      ),
+      
       );
   }
 }

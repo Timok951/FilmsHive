@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 
-class Addfilm extends StatelessWidget {
+class EditFilm extends StatelessWidget {
   final controller;
   final controllerpath;
   final controllerdesc;
+  final filmname;
+  final img;
+  final desc;
   VoidCallback onSave;
   VoidCallback onCancel;
   
-  Addfilm({
+  EditFilm({
     super.key,
     required this.controller,
     required this.controllerpath,
     required this.controllerdesc,
+    required this.filmname,
+    required this.desc,
+    required this.img,
     required this.onSave,
     required this.onCancel
     });
@@ -24,19 +30,20 @@ class Addfilm extends StatelessWidget {
           TextField(
             controller: controller,
             decoration: InputDecoration(
-              hintText: "Film name"
+              hintText: filmname,
             ),
+            
           ),
           TextField(
             controller: controllerpath,
             decoration: InputDecoration(
-              hintText: "Filmpath"
+              hintText: img
             ),
           ),
           TextField(
             controller: controllerdesc,
             decoration: InputDecoration(
-              hintText: "Description"
+              hintText: desc
             ),
           ),
 
