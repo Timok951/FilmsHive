@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hive_app/models/film.dart';
+import 'package:hive_app/theme/theme_provider.dart';
 import 'package:hive_app/utils/AddFilm.dart';
 import 'package:hive_app/utils/edit_film.dart';
 import 'package:hive_app/utils/film_tile.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -12,7 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
 
-   HomePage({super.key});
+   const HomePage({super.key});
   
 
   @override
@@ -26,6 +28,13 @@ class _HomepageState extends State<HomePage> {
   final _controller = TextEditingController();
   final _controllerdesc = TextEditingController();
   final _controllerimg = TextEditingController();
+
+  @override
+  void initState(){
+    Provider.of<ThemeProvider>(context, listen: false).OnStartup();
+    
+    super.initState();
+  }
 
 
 
@@ -47,7 +56,6 @@ class _HomepageState extends State<HomePage> {
           ),
         ),
         elevation: 0,
-        
       ),
       floatingActionButton: FloatingActionButton(
         onPressed:() => showDialog(
@@ -59,7 +67,6 @@ class _HomepageState extends State<HomePage> {
               controllerpath: _controllerimg,
               onCancel: () => Navigator.of(context).pop(),
               onSave: saveNewTask,
-              
             );
           }
           ),
@@ -70,6 +77,15 @@ class _HomepageState extends State<HomePage> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          ElevatedButton(
+            child: Text(
+              "Change theme"
+            ),
+            onPressed: (){
+            Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
+          }
+          ),
+          
           ValueListenableBuilder(
             valueListenable: Hive.box<Film>("Films").listenable(), 
             builder: (context, Box box, _){
@@ -81,7 +97,6 @@ class _HomepageState extends State<HomePage> {
               return Flexible(
                 fit: FlexFit.tight,
                 child: ListView.builder(
-                  
                   itemCount: box.values.length,
                   itemBuilder: (context, index) {
                   Film res = box.getAt(index);
