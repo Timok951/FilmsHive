@@ -7,18 +7,18 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
-  
   //init Hive
   await Hive.initFlutter();
   //register adapter for own types of data
   Hive.registerAdapter(FilmAdapter());
   var filmBox = await Hive.openBox<Film>('Films');
 
-  runApp(ChangeNotifierProvider(
-    create: (context) => ThemeProvider(),
-    child: const MyApp()
-  )
-);
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: const HomePage(),
-      theme: Provider.of<ThemeProvider>(context).themeData
-      );
+      theme: Provider.of<ThemeProvider>(context).themeData,
+    );
   }
 }

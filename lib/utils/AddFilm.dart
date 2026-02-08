@@ -6,15 +6,15 @@ class Addfilm extends StatelessWidget {
   final controllerdesc;
   VoidCallback onSave;
   VoidCallback onCancel;
-  
+
   Addfilm({
     super.key,
     required this.controller,
     required this.controllerpath,
     required this.controllerdesc,
     required this.onSave,
-    required this.onCancel
-    });
+    required this.onCancel,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,40 +23,26 @@ class Addfilm extends StatelessWidget {
         children: [
           TextField(
             controller: controller,
-            decoration: InputDecoration(
-              hintText: "Film name"
-            ),
+            decoration: InputDecoration(hintText: "Film name"),
           ),
           TextField(
             controller: controllerpath,
-            decoration: InputDecoration(
-              hintText: "Filmpath"
-            ),
+            decoration: InputDecoration(hintText: "Filmpath"),
           ),
           TextField(
             controller: controllerdesc,
-            decoration: InputDecoration(
-              hintText: "Description"
-            ),
+            decoration: InputDecoration(hintText: "Description"),
           ),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(
-              onPressed: onSave, 
-              child: Text("Save")
-              ),
-              ElevatedButton(
-                onPressed: onCancel, 
-                child: Text("Cancel"))
-
+              ElevatedButton(onPressed: onSave, child: Text("Save")),
+              ElevatedButton(onPressed: onCancel, child: Text("Cancel")),
             ],
-            
-          )
+          ),
         ],
       ),
-
     );
   }
 }
